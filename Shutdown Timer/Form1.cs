@@ -16,7 +16,7 @@ namespace Shutdown_Timer
         int h;
         int m;
         int s;
-        bool selectedMethod;
+        int selectedMethod;
 
         public Form1()
         {
@@ -45,13 +45,17 @@ namespace Shutdown_Timer
             if (h == 0 && m == 0 && s == 0)
             {
 
-                if (selectedMethod == true)
+                if (selectedMethod == 0)
                 {
                     System.Diagnostics.Process.Start("shutdown", "/s /t 0");
                 }
-                else
+                else if (selectedMethod == 1)
                 {
                     System.Diagnostics.Process.Start("restart", "/r /t 0");
+                }
+                else
+                {
+                    System.Diagnostics.Process.Start("rundll32.exe", "powrprof.dll,SetSuspendState 0,1,0");
                 }
 
                 
@@ -74,11 +78,15 @@ namespace Shutdown_Timer
             //looks to see which option is selected shutdown/restart
             if (comboBox1.SelectedIndex == 0)
             {
-                selectedMethod = true;
+                selectedMethod = 0;
+            }
+            else if (comboBox1.SelectedIndex == 1)
+            {
+                selectedMethod = 1;
             }
             else
             {
-                selectedMethod = false;
+                selectedMethod = 2;
             }
 
             //disables the start button after being pressed
